@@ -1,0 +1,113 @@
+create table TEAM
+     (
+     Team_id varchar(20)PRIMARY KEY,
+      Teamname varchar(30),
+     Coach varchar(30),
+     CaptainId varchar(20),
+     City varchar(30)
+     );
+     
+     mysql> desc TEAM;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Team_id   | varchar(20) | NO   | PRI | NULL    |       |
+| Teamname  | varchar(30) | YES  |     | NULL    |       |
+| Coach     | varchar(30) | YES  |     | NULL    |       |
+| CaptainId | varchar(20) | YES  | MUL | NULL    |       |
+| City      | varchar(30) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+     create table PLAYER
+     (
+     Player_id varchar(20)PRIMARY KEY,
+     Player_name varchar(30),
+     Age int(3),
+     Team_id varchar(20),
+     Contact int(10),
+     FOREIGN KEY(Team_id)REFERENCES TEAM(Team_id));
+    
+     mysql> DESC PLAYER;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Player_id   | varchar(20) | NO   | PRI | NULL    |       |
+| Player_name | varchar(30) | YES  |     | NULL    |       |
+| Age         | int         | YES  |     | NULL    |       |
+| Team_id     | varchar(20) | YES  | MUL | NULL    |       |
+| Contact     | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+ 
+     
+    ALTER TABLE TEAM ADD FOREIGN KEY(CaptainId) REFERENCES PLAYER(Player_id);
+    
+    insert into TEAM(Team_id,Teamname,Coach,City)values("t101","RCB","Sunil","Banglore");
+    insert into TEAM(Team_id,Teamname,Coach,City)values("t102","CSK","Laxman","Chennai");
+    insert into TEAM(Team_id,Teamname,Coach,City)values("t103","KKR","Karan","Mumbai");
+    insert into TEAM(Team_id,Teamname,Coach,City)values("t104","ROYALS","Virat","Delhi");
+    insert into TEAM(Team_id,Teamname,Coach,City)values("t105","DD","Pande","Gujarath");
+    
+    insert into PLAYER(Player_id,Player_name,Age,Team_id,Contact)values("p01","Rajesh",25,"t101",948210501);
+    insert into PLAYER(Player_id,Player_name,Age,Team_id,Contact)values("p02","Abhishek",27,"t101",948218344);
+    insert into PLAYER(Player_id,Player_name,Age,Team_id,Contact)values("p03","Chethan",30,"t102",998110501);
+    insert into PLAYER(Player_id,Player_name,Age,Team_id,Contact)values("p04","Sanjay",28,"t101",828610501);
+    insert into PLAYER(Player_id,Player_name,Age,Team_id,Contact)values("p05","Rahul",18,"t102",988515505);
+    insert into PLAYER(Player_id,Player_name,Age,Team_id,Contact)values("p06","Nagesh",19,"t102",919345505);
+     
+     mysql> select * from PLAYER;
++-----------+-------------+------+---------+-----------+
+| Player_id | Player_name | Age  | Team_id | Contact   |
++-----------+-------------+------+---------+-----------+
+| p01       | Rajesh      |   25 | t101    | 948210501 |
+| p02       | Abhishek    |   27 | t101    | 948218344 |
+| p03       | Chethan     |   30 | t102    | 998110501 |
+| p04       | Sanjay      |   28 | t101    | 828610501 |
+| p05       | Rahul       |   18 | t102    | 988515505 |
+| p06       | Nagesh      |   19 | t102    | 919345505 |
++-----------+-------------+------+---------+-----------+
+
+    
+     select Player_name,Player_id,MIN(Age),Team_id
+     from PLAYER
+     GROUP BY Team_id;
+  
+  
+  select Teamname
+  from TEAM
+  where Team_id IN(
+  SELECT Team_id
+  from PLAYER
+  group by(Team_id)
+  Order by min(age));
+    
+    UPDATE TABLE TEAM SET CaptainId="c1" where Player_id="p01";
+    
+      create table STADIUM
+     (
+      Stadium_id varchar(20)PRIMARY KEY NOT NULL,
+      Stadium_name varchar(30)NOT NULL,
+     Pincode int(10)NOT NULL,
+     City varchar(30)NOT NULL,
+     Area varchar(20));
+
+  create table MATCHES
+     (
+     Winner_teamid varchar(20) NOT NULL,
+     Match_id varchar(10)PRIMARY KEY NOT NULL,
+     Team_id1 varchar(20)NOT NULL,
+     Team_id2 varchar(20)NOT NULL,
+     Sdate date NOT NULL,
+     Stime time,
+     Stadium_id varchar(20),
+     FOREIGN KEY(Winner_teamid)REFERENCES TEAM(Team_id),
+     FOREIGN KEY(Stadium_id)REFERENCES STADIUM(Stadium_id),
+     FOREIGN KEY(Team_id1)REFERENCES TEAM(Team_id),
+     FOREIGN KEY(Team_id2)REFERENCES TEAM(CaptainId)
+    );
+    
+    
+    create table MANOFMATCH(
+    Match_id varchar(10),
+    Player_id varchar(20));
+    
+    
