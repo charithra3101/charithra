@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="2a.css"/>
 </head>
 <body>
     <ol type="1">
@@ -40,7 +41,7 @@
             <td>Sep-1 to Nov-30</td>
         </tr>
     </table>
-    <link rel="stylesheet" href="2a.css"/>
+   
 
 </body>
 </html>
