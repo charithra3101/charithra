@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Bar</title>
+    <script>
+        function loader(){
+            var prog=document.getElementById("pro");
+            let nve=0;
+            var c=document.getElementsByName("stud");
+            for(i=0;i<c.length;i++)
+                if(c[i].validity.valid)
+                   nve++;
+            prog.value=nve*20;
+        }
+    </script>
+</head>
+<body>
+    <h1>Progress</h1>
+    <form>
+        Name: 
+        <input type="text" required id="text1" name="stud" onchange="loader();">
+        <br>
+        DOB:
+        <input type="date" required id="text2" name="stud" onchange="loader();">
+        <br>
+        Email:
+        <input type="email" required id="text3" name="stud" onchange="loader();"><br>
+        Contact:
+        <input type="number" required pattern="[0-9]{10}" id="text4" name="stud" onchange="loader();"><br>
+        City:
+       <input type="text" required name="stud" id="text" onchange="loader();"><br>
+        <video src="grass.mp4" autoplay controls height="450" ></video>
+    </form>
+
+    <progress value="0" max="100" id="pro"></progress>
+</body>
+</html>
+Footer
