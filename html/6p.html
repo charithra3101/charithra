@@ -1,0 +1,29 @@
+<html>
+    <body>
+    <script>
+        function vowel(){
+        var str = prompt("Enter the Input");
+        vol=(str.match(/[aeiouAEIOU]/));
+       if( pos=(str.indexOf(str.match(/[aeiouAEIOU]/))))
+        alert("The position of the left most vowel is " + vol + " at position " + (pos+1));
+        else
+        alert("vowel not found")
+        }
+        function rev(){
+        var n,rev=0,rem;
+        n = parseInt(prompt("Enter number"));
+        while(n!=0)
+        {
+           rem = n%10;
+           n = parseInt(n/10);
+           rev = rev * 10 + rem;
+        }
+    alert("Reverse of number is " +rev);
+    }
+    </script>
+    <form>
+        <h1 onclick="vowel ()">Vowel</h1>
+        <h1 onclick="rev ()">Reverse</h1>
+    </form>
+    </body>
+</html> 
