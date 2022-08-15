@@ -1,0 +1,226 @@
+create table team(
+  team_id varchar(10) primary key,
+  team_name varchar(20) not null,
+  city varchar(20),
+  coach varchar(20) not null,
+  captain varchar(10)
+);
+  mysql> desc team;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| team_id   | varchar(10) | NO   | PRI | NULL    |       |
+| team_name | varchar(20) | NO   |     | NULL    |       |
+| city      | varchar(20) | YES  |     | NULL    |       |
+| coach     | varchar(20) | NO   |     | NULL    |       |
+| captain   | varchar(10) | YES  | MUL | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+ create table player(
+  player_id varchar(10) primary key,
+  plyer_name varchar(20) not null,
+  phone int(10),
+  age int(3),
+  team_id varchar(10),
+  foreign key (team_id) references team(team_id)
+);
+ysql> desc player;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| player_id  | varchar(10) | NO   | PRI | NULL    |       |
+| plyer_name | varchar(20) | NO   |     | NULL    |       |
+| phone      | int         | YES  |     | NULL    |       |
+| age        | int         | YES  |     | NULL    |       |
+| team_id    | varchar(10) | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+
+alter table team
+add foreign key (captain) references player(player_id);
+
+
+create table stadium(
+  stadium_id varchar(10) primary key,
+  s_name varchar(20) not null,
+  city varchar(20) not null,
+  area_name varchar(20) not null,
+  pincode int(6)
+ 
+);
+mysql> desc stadium;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| stadium_id | varchar(10) | NO   | PRI | NULL    |       |
+| s_name     | varchar(20) | NO   |     | NULL    |       |
+| city       | varchar(20) | NO   |     | NULL    |       |
+| area_name  | varchar(20) | NO   |     | NULL    |       |
+| pincode    | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+
+
+   create table matches(
+    match_id varchar(10)primary key,
+    team_id1 varchar(10),
+    team_id2 varchar(10),
+    sdate date,
+    stime time,
+    stadium_id varchar(10),
+    winner_id varchar(10),
+    foreign key (stadium_id) references stadium(stadium_id),
+    foreign key (team_id1) references team(team_id),
+    foreign key (team_id2) references team(team_id),
+    foreign key (winner_id) references team(team_id)
+);
+
+mysql> desc matches;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| match_id   | varchar(10) | NO   | PRI | NULL    |       |
+| team_id1   | varchar(10) | YES  | MUL | NULL    |       |
+| team_id2   | varchar(10) | YES  | MUL | NULL    |       |
+| sdate      | date        | YES  |     | NULL    |       |
+| stime      | time        | YES  |     | NULL    |       |
+| stadium_id | varchar(10) | YES  | MUL | NULL    |       |
+| winner_id  | varchar(10) | YES  | MUL | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+create table manofmatch(
+  player_id varchar(10),
+  match_id varchar(10),
+  primary key(player_id,match_id)
+  );
+  mysql> desc manofmatch;'
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| player_id | varchar(10) | NO   | PRI | NULL    |       |
+| match_id  | varchar(10) | NO   | PRI | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+  
+insert into player(player_id,plyer_name,phone,age) values('p01','virat','948310501',24);
+insert into player(player_id,plyer_name,phone,age) values('p02','dinesh','828310501',23);
+insert into player(player_id,plyer_name,phone,age) values('p03','rohith','998340501',29);
+insert into player(player_id,plyer_name,phone,age) values('p04','tim','768600432',18);
+insert into player(player_id,plyer_name,phone,age) values('p05','ruthuraj','897112918',22);
+insert into player(player_id,plyer_name,phone,age) values('p06','Dhoni','997217918',29);
+
+mysql> select * from player;
++-----------+------------+-----------+------+---------+
+| player_id | plyer_name | phone     | age  | team_id |
++-----------+------------+-----------+------+---------+
+| p01       | virat      | 948310501 |   24 | NULL    |
+| p02       | dinesh     | 828310501 |   23 | NULL    |
+| p03       | rohith     | 998340501 |   29 | NULL    |
+| p04       | tim        | 768600432 |   18 | NULL    |
+| p05       | ruthuraj   | 897112918 |   22 | NULL    |
+| p06       | Dhoni      | 997217918 |   29 | NULL    |
++-----------+------------+-----------+------+---------+
+
+insert into team(team_id,team_name,city,coach,captain)values('t01','RCB','Bengalore','Gowtham','p01');
+insert into team(team_id,team_name,city,coach,captain)values('t02','MI','Mumbai','Sharma','p03');
+insert into team(team_id,team_name,city,coach,captain)values('t03','CSK','Chennai','rohith','p06');
+
+mysql> select * from team;
++---------+-----------+-----------+---------+---------+
+| team_id | team_name | city      | coach   | captain |
++---------+-----------+-----------+---------+---------+
+| t01     | RCB       | Bengalore | Gowtham | p01     |
+| t02     | MI        | Mumbai    | Sharma  | p03     |
+| t03     | CSK       | Chennai   | rohith  | p06     |
++---------+-----------+-----------+---------+---------+
+
+update player set team_id='t01' where player_id in('p01','p02');
+update player set team_id='t02' where player_id in('p03','p04');
+update player set team_id='t03' where player_id in('p05','p06');
+
+mysql> select * from player;
++-----------+------------+-----------+------+---------+
+| player_id | plyer_name | phone     | age  | team_id |
++-----------+------------+-----------+------+---------+
+| p01       | virat      | 948310501 |   24 | t01     |
+| p02       | dinesh     | 828310501 |   23 | t01     |
+| p03       | rohith     | 998340501 |   29 | t02     |
+| p04       | tim        | 768600432 |   18 | t02     |
+| p05       | ruthuraj   | 897112918 |   22 | t03     |
+| p06       | Dhoni      | 997217918 |   29 | t03     |
++-----------+------------+-----------+------+---------+
+
+insert into stadium(stadium_id,s_name,city,area_name,pincode)values('s01','chethana','dharmasthala','ujire',574217);
+insert into stadium(stadium_id,s_name,city,area_name,pincode)values('s02','dhrona','Mangalore','B.CRoad',574213);
+mysql> select * from stadium;
++------------+----------+--------------+-----------+---------+
+| stadium_id | s_name   | city         | area_name | pincode |
++------------+----------+--------------+-----------+---------+
+| s01        | chethana | dharmasthala | ujire     |  574217 |
+| s02        | dhrona   | Mangalore    | B.CRoad   |  574213 |
++------------+----------+--------------+-----------+---------+
+
+insert into matches(match_id,team_id1,team_id2,sdate,stime,stadium_id,winner_id)values('m1','t01','t02','2021-06-22','09:30:12','s01','t02');
+insert into matches(match_id,team_id1,team_id2,sdate,stime,stadium_id,winner_id)values('m2','t02','t03','2021-06-22','09:30:12','s01','t02');
+insert into matches(match_id,team_id1,team_id2,sdate,stime,stadium_id,winner_id)values('m3','t01','t03','2021-06-28','09:30:12','s02','t03');
+insert into matches(match_id,team_id1,team_id2,sdate,stime,stadium_id,winner_id)values('m4','t02','t03','2021-06-29','09:30:12','s02','t02');
+
+mysql> select * from matches;
++----------+----------+----------+------------+----------+------------+-----------+
+| match_id | team_id1 | team_id2 | sdate      | stime    | stadium_id | winner_id |
++----------+----------+----------+------------+----------+------------+-----------+
+| m1       | t01      | t02      | 2021-06-22 | 09:30:12 | s01        | t02       |
+| m2       | t02      | t03      | 2021-06-22 | 09:30:12 | s01        | t02       |
+| m3       | t01      | t03      | 2021-06-28 | 09:30:12 | s02        | t03       |
+| m4       | t02      | t03      | 2021-06-29 | 09:30:12 | s02        | t02       |
++----------+----------+----------+------------+----------+------------+-----------+
+
+insert into manofmatch(player_id,match_id)values('p03','m1');
+insert into manofmatch(player_id,match_id)values('p04','m2');
+insert into manofmatch(player_id,match_id)values('p05','m3');
+insert into manofmatch(player_id,match_id)values('p04','m4');
+
+mysql> select * from manofmatch;
++-----------+----------+
+| player_id | match_id |
++-----------+----------+
+| p03       | m1       |
+| p04       | m2       |
+| p04       | m4       |
+| p05       | m3       |
++-----------+----------+
+
+
+1.select plyer_name,team_name,age from player p,team t 
+     where p.team_id=t.team_id and age=(select min(age) from player);
++------------+-----------+------+
+| plyer_name | team_name | age  |
++------------+-----------+------+
+| tim        | MI        |   18 |
++------------+-----------+------+
+
+2.mysql> select * from stadium 
+    -> where stadium_id=(select stadium_id from matches group by stadium_id order by count(match_id)desc limit 1);
++------------+----------+--------------+-----------+---------+
+| stadium_id | s_name   | city         | area_name | pincode |
++------------+----------+--------------+-----------+---------+
+| s01        | chethana | dharmasthala | ujire     |  574217 |
++------------+----------+--------------+-----------+---------+
+3.
+select * from player
+where player_id in(select player_id from manofmatch
+where player_id not in(select captain from team)
+group by player_id having count(player_id)>=2);
++-----------+------------+-----------+------+---------+
+| player_id | plyer_name | phone     | age  | team_id |
++-----------+------------+-----------+------+---------+
+| p04       | tim        | 768600432 |   18 | t02     |
++-----------+------------+-----------+------+---------+
+4.
+select * from team where team_id=(select winner_id from matches group by winner_id order by count(winner_id)desc limit 1);
++---------+-----------+--------+--------+---------+
+| team_id | team_name | city   | coach  | captain |
++---------+-----------+--------+--------+---------+
+| t02     | MI        | Mumbai | Sharma | p03     |
++---------+-----------+--------+--------+---------+
+
