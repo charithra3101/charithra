@@ -1,0 +1,229 @@
+CREATE TABLE CONSTITUENCY(
+CONS_ID INT(20) PRIMARY KEY,
+CSNAME VARCHAR(20),
+CSSTATE VARCHAR(20),
+NO_OF_VOTERS INT(10));
+
+mysql> DESC CONSTITUENCY;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| CONS_ID      | int         | NO   | PRI | NULL    |       |
+| CSNAME       | varchar(20) | YES  |     | NULL    |       |
+| CSSTATE      | varchar(20) | YES  |     | NULL    |       |
+| NO_OF_VOTERS | int         | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+
+CREATE TABLE PARTY(
+PID INT(20) PRIMARY KEY,
+PNAME VARCHAR(20),
+PSYMBOL VARCHAR(10));
+
+mysql> DESC PARTY;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| PID     | int         | NO   | PRI | NULL    |       |
+| PNAME   | varchar(20) | YES  |     | NULL    |       |
+| PSYMBOL | varchar(10) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+CREATE TABLE CANDIDATES(
+CAND_ID INT(12) PRIMARY KEY,
+PHONE_NO INT(10),
+AGE INT(2),
+STATE VARCHAR(20),
+NAME VARCHAR(20),
+PID INT REFERENCES PARTY(PID));
+
+mysql> DESC CANDIDATES;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| CAND_ID  | int         | NO   | PRI | NULL    |       |
+| PHONE_NO | int         | YES  |     | NULL    |       |
+| AGE      | int         | YES  |     | NULL    |       |
+| STATE    | varchar(20) | YES  |     | NULL    |       |
+| NAME     | varchar(20) | YES  |     | NULL    |       |
+| PID      | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+
+
+CREATE TABLE CONTEST
+(CONS_ID INT(20) REFERENCES CONSTITUENCY(CONS_ID),
+CAND_ID INT(12) REFERENCES CANDIDATES(CAND_ID),
+PRIMARY KEY(CONS_ID,CAND_ID));
+
+mysql> DESC CONTEST;
++---------+------+------+-----+---------+-------+
+| Field   | Type | Null | Key | Default | Extra |
++---------+------+------+-----+---------+-------+
+| CONS_ID | int  | NO   | PRI | NULL    |       |
+| CAND_ID | int  | NO   | PRI | NULL    |       |
++---------+------+------+-----+---------+-------+
+
+CREATE TABLE VOTER(
+VID INT(20) PRIMARY KEY,
+VNAME VARCHAR(20),
+VAGE INT(5),
+VADDR VARCHAR(20),
+CONS_ID INT(20) REFERENCES CONSTITUENCY(CONS_ID),
+COND_ID INT(12) REFERENCES CANDIDATES(CAND_ID));
+
+mysql> DESC VOTER;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| VID     | int         | NO   | PRI | NULL    |       |
+| VNAME   | varchar(20) | YES  |     | NULL    |       |
+| VAGE    | int         | YES  |     | NULL    |       |
+| VADDR   | varchar(20) | YES  |     | NULL    |       |
+| CONS_ID | int         | YES  |     | NULL    |       |
+| COND_ID | int         | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+----
+
+
+insert into CONSTITUENCY values('01','hassan','karnataka','100');
+insert into CONSTITUENCY values('02','mysore','karnataka','1000');
+insert into CONSTITUENCY values('03','chennur','telangana','2000');
+insert into CONSTITUENCY values('04','maharastra','mumbai','3000');
+ 
+ mysql> SELECT * FROM CONSTITUENCY;
++---------+------------+-----------+--------------+
+| CONS_ID | CSNAME     | CSSTATE   | NO_OF_VOTERS |
++---------+------------+-----------+--------------+
+|       1 | hassan     | karnataka |          100 |
+|       2 | mysore     | karnataka |         1000 |
+|       3 | chennur    | telangana |         2000 |
+|       4 | maharastra | mumbai    |         3000 |
++---------+------------+-----------+--------------+
+
+
+insert into PARTY values('11','bjp','lotus');
+insert into PARTY values('12','jds','janatha dal');
+insert into PARTY values('13','congress','hand');
+insert into PARTY values('14','others','clock');
+ 
+ mysql> SELECT * FROM PARTY;
++-----+----------+---------+
+| PID | PNAME    | PSYMBOL |
++-----+----------+---------+
+|  11 | bjp      | lotus   |
+|  13 | congress | hand    |
+|  14 | others   | clock   |
++-----+----------+---------+
+
+
+insert into CANDIDATES values('21','829628986',22,'karnataka','Chethan','11');
+insert into CANDIDATES values('22','900828443',30,'karnataka','Nikshi','13');
+insert into CANDIDATES values('23','966378202',45,'telangana','Dhyan','14');
+insert into CANDIDATES values('24','636465127',35,'mumbai','Raksha','p02');
+insert into CANDIDATES values('21','829628986',22,'karnataka','Chethan','11');
+
+mysql> SELECT * FROM CANDIDATES;
++---------+-----------+------+-----------+---------+------+
+| CAND_ID | PHONE_NO  | AGE  | STATE     | NAME    | PID  |
++---------+-----------+------+-----------+---------+------+
+|      21 | 829628986 |   22 | karnataka | Chethan |   11 |
+|      22 | 900828443 |   30 | karnataka | Nikshi  |   13 |
+|      23 | 966378202 |   45 | telangana | Dhyan   |   14 |
++---------+-----------+------+-----------+---------+------+
+
+insert into CONTEST values('01','21');
+insert into CONTEST values('03','21');
+insert into CONTEST values('02','22');
+insert into CONTEST values('03','23');
+insert into CONTEST values('04','24');
+
+mysql> SELECT * FROM CONTEST;
++---------+---------+
+| CONS_ID | CAND_ID |
++---------+---------+
+|       1 |      21 |
+|       2 |      22 |
+|       3 |      21 |
+|       3 |      23 |
+|       4 |      24 |
++---------+---------+
+
+
+insert into VOTER values('101','NAYANA',22,'ujire','01','11');
+insert into VOTER values('102','sindhu',35,'vitla','04','14');
+insert into voter values('v03','sahana',55,'kadaba','co03','c03');
+insert into voter values('v04','megha',41,'puttur','co02','c02');
+
+mysql> SELECT * FROM VOTER;
++-----+--------+------+-------+---------+---------+
+| VID | VNAME  | VAGE | VADDR | CONS_ID | COND_ID |
++-----+--------+------+-------+---------+---------+
+| 101 | NAYANA |   22 | ujire |       1 |      11 |
+| 102 | sindhu |   35 | vitla |       4 |      14 |
++-----+--------+------+-------+---------+---------+
+
+i. List the details of the candidates who are contesting from more than one constituencies
+  which are belongs to different states.
+  mysql> SELECT * FROM CANDIDATES
+    ->    WHERE CAND_ID IN (SELECT CAND_ID FROM CONTEST
+    ->    JOIN CONSTITUENCY ON CONTEST.CONS_ID=CONSTITUENCY.CONS_ID
+    ->    GROUP BY CAND_ID HAVING COUNT(DISTINCT(CSSTATE))>1);
++---------+-----------+------+-----------+---------+------+
+| CAND_ID | PHONE_NO  | AGE  | STATE     | NAME    | PID  |
++---------+-----------+------+-----------+---------+------+
+|      21 | 829628986 |   22 | karnataka | Chethan |   11 |
++---------+-----------+------+-----------+---------+------+
+
+   
+ii. Display the state name having maximum number of constituencies.
+
+    SELECT CSSTATE FROM CONSTITUENCY
+    GROUP BY CSSTAE HAVING COUNT(CSSTATE) IN
+    
+    select CSSTATE from CONSTITUENCY
+group by CSSTATE having count(CSTATE) in
+(select max(count(CSSTATE)) from CONSTITUENCY group by CSSTATE);
+    
+    iii. Create a stored procedure to insert the tuple into the voter table by checking the voter
+   age. If voter’s age is at least 18 years old, then insert the tuple into the voter else display the
+    “Not an eligible voter msg” .
+    
+    
+    
+       DELIMITER //
+        create procedure abc(IN VID int(10),IN VNAME varchar(20),IN AGE int(10),IN CITY varchar(20),STATE varchar(20))
+    ->     begin
+    ->     declare msg varchar(20);
+    ->     if age>=18 then
+    ->     insert into VOTER (VID,VNAME,VAGE,VADDR)
+    ->     values(VID,VNAME,AGE,CITY);
+    ->     set msg="row inserted";
+    ->     else
+    ->     set msg="voter not eligible";
+    ->     end if;
+    ->     select msg;
+    ->     end //
+      DELIMITER ;
+      
+      mysql> CALL abc('109','Pallavi',17,'kodiyal','Karnataka');
++--------------------+
+| msg                |
++--------------------+
+| voter not eligible |
++--------------------+
+mysql>      CALL abc('110','Pavithra',27,'perne','Karnataka');
++--------------+
+| msg          |
++--------------+
+| row inserted |
++--------------+
+
+mysql> source abc.sql
+
+
+
+    
+   
+    
+    
+    
+    
