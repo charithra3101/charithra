@@ -1,0 +1,59 @@
+<!DOCTYPE html>         
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        label{
+            display: block;
+            margin: 10px;
+        }
+        input[type=text]{
+            border: 2px solid green;
+            background: yellow;
+        }
+        h3{
+            text-transform: uppercase;
+        }
+        body{
+            background: rgb(233, 233, 233);
+        }
+    </style>
+    <script>
+        function calzi(val){
+            
+            tb1=document.getElementById("tb1");
+            tb2=document.getElementById("tb2");
+            res=document.getElementById("res");
+            if(tb1.value==0 || tb2.value==0){
+                res.value="Give proper values"
+            }
+            else{
+                if(val==1)  //add
+                    res.value=parseInt(tb1.value)+parseInt(tb2.value);
+                if(val==2)  //sub
+                    res.value=parseInt(tb1.value)-parseInt(tb2.value);
+                if(val==3)  //mul
+                    res.value=parseInt(tb1.value)*parseInt(tb2.value);
+                if(val==4)  //div
+                    res.value=parseInt(tb1.value)/parseInt(tb2.value);
+            }
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <h3>A Simple Calculator</h3>
+        <label for="tb1">Number 1: <input type="text" name="tb1" id="tb1" value="0" required></label>
+        <label for="tb2">Number 2: <input type="text" name="tb2" id="tb2" value="0" required></label>
+        <label for="res">Result: <input type="text" name="res" id="res"></label>
+        <input type="button" value="ADD" onclick="calzi(1)">
+        <input type="button" value="SUB" onclick="calzi(2)">
+        <input type="button" value="MUL"onclick="calzi(3)">
+        <input type="button" value="DIV" onclick="calzi(4)">
+        <input type="reset" value="CLEAR">
+    </form>
+</body>
+</html>

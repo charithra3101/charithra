@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P11B</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>">
+    <script>
+        $(function(){
+            $("button").click(function(){
+                if($(this).text()=='LARGER'){
+                    $("img").animate({'height':'200px','width':'400px'},1000);
+                    $(this).text('SMALLER');
+                }else{
+                    $("img").animate({'height':'50px','width':'100px'},1000);
+                    $(this).text('LARGER');
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <button>LARGER</button>
+        <br>
+        <img src="whitehorse.jpg" width="100px">
+    </div>
+</body>
+</html>

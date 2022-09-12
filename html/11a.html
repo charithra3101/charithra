@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P11A</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>">
+    
+    <script>
+          $(function(){
+            $("button").click(function(){
+                if($(this).text()=='Fade Out'){
+                    $("div").fadeOut(1500);
+                    $(this).text('Fade In')
+                }else{
+                    $("div").fadeIn(1500);
+                    $(this).text('Fade Out');
+                }
+            });  
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <p>press the below button to hide</p>
+    </div>
+    <button>Fade Out</button>
+</body>
+</html>

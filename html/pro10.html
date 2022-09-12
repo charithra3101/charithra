@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limit Character</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>">
+<script>
+    $(function(){
+        var ml=($("textarea").attr('maxlength'));
+        $("span").text(ml);
+        $("textarea").keyup(function(){
+        var nc=$(this).val().length;
+          $("#rc").text(ml-nc);
+      });
+          $("[type='checkbox']").click(function(){
+        if($(this).is(':checked'))
+           $("[type='button']").removeAttr('disabled');
+        else
+           $("[type='button']").attr('disabled','disabled');
+      });
+    });
+</script>
+</head>
+<body>      
+    <label><input type="checkbox" name="" id="agree">I Agree the Condition</label>
+   <input type="button" value="I Agree"disabled>   
+    <h3>You can enter Maximum <span>20</span> chracters</h3>
+    <textarea id="" cols="30" rows="10" maxlength="30"></textarea>
+   <p>Remaining <span id="rc">20</span> chracters</p>
+   
+</body>
+</html>
